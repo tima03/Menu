@@ -8,5 +8,6 @@ static public void Main(string[] args)
        ListMain.Add(new Item("Exit", "ExitExe"));
        CMenu.CMenu Menu = new CMenu.CMenu("Shop",ListMain);
        Menu.run();
+
     }
 }
