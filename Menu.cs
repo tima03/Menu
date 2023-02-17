@@ -1,4 +1,6 @@
-﻿namespace CMenu
+﻿using System.Diagnostics.Metrics;
+
+namespace CMenu
 {
     internal class CMenu
     {
@@ -6,19 +8,20 @@
         private string name;
         private int pointer;
         private bool IsRunnig;
-
+        
         public CMenu()
         {
             name = "NULL";
             pointer = 0;
             ItemMenu = null;
+            IsRunnig = true;
         }
 
-        public CMenu(string Name, List<Item> ItemMenu)
+        public CMenu(string Name,bool IsRunning =true)
         {
             name = Name;
             pointer = 0;
-            this.ItemMenu = ItemMenu;
+            IsRunnig = IsRunning;
         }
 
         public void SetName(string Name)
@@ -40,42 +43,59 @@
             {
                 if (i == pointer)
                 {
-                    Console.Write("->");
+                    Console.WriteLine("->" + ItemMenu[i].GetName());
                 }
                 else
                 {
-                    Console.Write("  ");
-                    Console.WriteLine(ItemMenu[i].GetName());
+                    Console.WriteLine("  " + ItemMenu[i].GetName());
                 }
             }
         }
 
+        public void SetIsRunning(bool IsRunning) {
+        this.IsRunnig = IsRunning;
+        }
+        public bool GetIsRunning()
+        {
+            return IsRunnig;
+        }
+
         public void Run()
         {
+            ConsoleKeyInfo key = new ConsoleKeyInfo();
             pointer = 0;
+
             while (true)
             {
-                Console.Clear();
                 Print(pointer);
 
-                if (Console.ReadKey(false).Key == ConsoleKey.DownArrow) pointer++;
-                else if (Console.ReadKey(false).Key == ConsoleKey.UpArrow) pointer--;
-                else if (Console.ReadKey(false).Key == ConsoleKey.Enter)
+                key = Console.ReadKey(true);
+
+                switch (key.Key)
                 {
-                    ItemMenu[pointer].RunCommand();
+                    case ConsoleKey.UpArrow:
+                        pointer--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        pointer++;
+                        break;
+                    case ConsoleKey.Enter:
+                        ItemMenu[pointer].RunCommand();
+                        break;
+                    case ConsoleKey.Escape:
+                        IsRunnig = false;
+                        break;
+
+                    default:
+                        break;
                 }
 
                 if (pointer < 0) pointer = ItemMenu.Count - 1;
                 else if (pointer > (ItemMenu.Count - 1)) pointer = 0;
 
                 if (!IsRunnig) break;
-
+                Console.Clear();
             }
-        }
-
-        public void Stop()
-        {
-            this.IsRunnig = false;
         }
 
         public string GetName()
