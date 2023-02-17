@@ -1,39 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CMenu
+﻿namespace CMenu
 {
     internal class CMenu
     {
+        private List<Item>? ItemMenu = new();
         private string name;
         private int pointer;
-        private List<Item>? ItemMenu = new List<Item>();
-
-        public CMenu(string Name, List<Item> ItemMenu)
-        {
-            this.name = Name;
-            this.pointer = 0;
-            this.ItemMenu = ItemMenu;
-        }
+        private bool IsRunnig;
 
         public CMenu()
         {
-            this.name = "NULL";
-            this.pointer = 0;
-            this.ItemMenu = null;
+            name = "NULL";
+            pointer = 0;
+            ItemMenu = null;
+        }
+
+        public CMenu(string Name, List<Item> ItemMenu)
+        {
+            name = Name;
+            pointer = 0;
+            this.ItemMenu = ItemMenu;
         }
 
         public void SetName(string Name)
         {
-            this.name = Name;
+            name = Name;
         }
 
         public void SetList(List<Item> List)
         {
-            this.ItemMenu = List;
+            ItemMenu = List;
+        }
+
+        public void Print(int pointer)
+        {
+            Console.WriteLine(name + " " + pointer + " " + ItemMenu.Count);
+            Console.WriteLine();
+
+            for (int i = 0; i < ItemMenu.Count; i++)
+            {
+                if (i == pointer)
+                {
+                    Console.Write("->");
+                }
+                else
+                {
+                    Console.Write("  ");
+                    Console.WriteLine(ItemMenu[i].GetName());
+                }
+            }
+        }
+
+        public void Run()
+        {
+            pointer = 0;
+            while (true)
+            {
+                Console.Clear();
+                Print(pointer);
+
+                if (Console.ReadKey(false).Key == ConsoleKey.DownArrow) pointer++;
+                else if (Console.ReadKey(false).Key == ConsoleKey.UpArrow) pointer--;
+                else if (Console.ReadKey(false).Key == ConsoleKey.Enter)
+                {
+                    ItemMenu[pointer].RunCommand();
+                }
+
+                if (pointer < 0) pointer = ItemMenu.Count - 1;
+                else if (pointer > (ItemMenu.Count - 1)) pointer = 0;
+
+                if (!IsRunnig) break;
+
+            }
+        }
+
+        public void Stop()
+        {
+            this.IsRunnig = false;
         }
 
         public string GetName()
@@ -44,11 +86,6 @@ namespace CMenu
         public List<Item> GetItems()
         {
             return ItemMenu;
-        }
-
-        public void Print()
-        {
-            // Ещё не доделано
         }
     }
 }

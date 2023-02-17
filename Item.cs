@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace CMenu
     public class Item
     {
         string name;
-        string funciton;
+        ref funciton;
 
         public Item() {
             this.name = "NULL";
@@ -48,6 +49,10 @@ namespace CMenu
         public void PrintFunction()
         {
             Console.WriteLine("Название выполняемой ф-ии: {0}", this.funciton);
+        }
+        public void RunCommand()
+        {
+            
         }
 
     }
