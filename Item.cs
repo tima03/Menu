@@ -5,25 +5,27 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CMenu
 {
     public class Item
     {
         string name;
-        ref funciton;
+        exe ex1;
 
         public Item() {
+            
             this.name = "NULL";
-            this.funciton = "NULL";
+            this.ex1 = null;
         }
-        public Item(string name,string function)
+        public Item(string name,exe ex1)
         {
             this.name = name;
-            this.funciton = function;
+            this.ex1 = ex1;
         }
 
-        public void SetFunction(string funciton) {
-            this.funciton = funciton;
+        public void SetFunction(exe ex1) {
+            this.ex1 = ex1;
         }
         
         public void SetName(string name) {
@@ -34,13 +36,13 @@ namespace CMenu
         {
             return this.name;
         }
-        public string GetFunciton()
+        public exe GetFunciton()
         {
-            return this.funciton;
+            return this.ex1;
         }
 
         public void Print() {
-        Console.WriteLine("Имя элемента меню: {0} Название выполняемой ф-ии: {1}",this.name,this.funciton);
+        Console.WriteLine("Имя элемента меню: {0} Название выполняемой ф-ии: {1}",this.name,this.ex1);
         }
         public void PrintName()
         {
@@ -48,11 +50,11 @@ namespace CMenu
         }
         public void PrintFunction()
         {
-            Console.WriteLine("Название выполняемой ф-ии: {0}", this.funciton);
+            Console.WriteLine("Название выполняемой ф-ии: {0}", this.ex1);
         }
         public void RunCommand()
         {
-            
+            ex1.Invoke();
         }
 
     }
